@@ -1,0 +1,1193 @@
+------------------------------------------------------------|---------------------|-----------------------------------------------------------------------------------
+                                                                                            |  路虽远，吾往矣   |
+ -------------------------------------------------------------|------------------|----------------------------------------------------------------------------------
+要点01：  引用变量和对象总结：
+
+	在程序中变量包含两部分 一个是变量在内存中的地址 另一个是存放在该地址的内容
+	变量的实质是一小块内存单元。这一小块内存里存储着变量的值
+ 
+	比如int a = 1;
+	a就是变量的名称，1就是变量的值。
+
+	而当变量指向一个对象时，这个变量就被称为引用变量
+	比如A a =new A();
+	a就是引用变量，它指向了一个A对象，也可以说它引用了一个A对象。
+	我们通过操纵这个a来操作A对象。 此时，变量a的值为它所引用对象的地址
+
+	String aa;         		意思是创建了一个String对象的引用aa，而这个引用没有值
+	String aa=null; 		意思是创建了一个String对象的引用aa，而这个引用的值是不指向任何对象的地址
+	String aa="abc";		意思是创建了一个String对象的引用aa，而这个引用的值是abc
+	String aa=new String("abc");   意思是创建了一个String对象的引用aa，而这个引用的值是所指向String对象的内存地址 
+
+	所谓的引用就是指向了某某对象，存放了某某对象的地址 （对象引用也称作实例）
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+思路01：  引用变量和指针变量区别在哪？
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点02：  零碎知识总结：
+
+	equals()方法用于比较两个对象引用的值的值（所指向对象的内容）是否相等  而"=="运算符比较的是两个对象引用的值（所指向对象的地址）是否相等
+	
+	创建在类里面的为成员变量（也称实例变量），不进行初始化系统默认给值0
+	创建在类里面且用static修饰的为类变量（也称静态变量）static final 定义的就变为类常量了
+	创建在方法里面的为局部变量，不进行初始化不可以使用
+
+	匿名对象引用：例如 class A{ 
+			public A abc(){ 
+				return new A();//这个就是匿名对象啦
+				}
+			}
+	
+	一个java文件里只有一个public定义的类，且该类必须为与文件同名
+
+	定义好每一个类后，经过编译器编译会生成 .class 文件
+
+	构造方法不可以有返回类型，除构造方法外，其他方法必须要有返回类型
+	除void外，其他返回类型必须要返回相对应类型的结果 例如 int aa(){ return 2;} 
+	
+	return 语句用法
+	给有返回值类型的方法 作方法返回 
+	 return; 可以用于终止后面的代码执行
+	
+	用static定义的实例变量可以被同包内多个类共享调用，但不能跨类更改 
+	调用格式为 类名.变量名
+	不能将方法里面的局部变量定义成静态变量
+
+	被final修饰符终极定义的方法不能被重写
+
+	不定长参数格式：参数数据类型···参数名称 其实不定长参数就是一个数组
+	可以用length获取其长度 例如： add(int... a){} a.length就是它的长度
+	                                                                                                                                                           
+	在java中无论是将一个类的对象向上转型成父类对象，还是向上转型成抽象父类对象，或者向上转型成该类实现接口，都是没有问题的
+	只不过此时再调用父类阶被重写过的方法其实就是调用自己的方法 
+
+	数组不单单可以是int flaot double 这些基本数据类型 也可以是String和各种类的对象引用 
+	注意：String 不是基本的数据类型 其也是一个类
+	例如：
+		public class A{ 
+			public A[] aa={this,this,this};
+		}
+	String类的getBytes()将一个字符串转化为一个字节数组byte[]的方法
+	可以用length()方法获取数组大小
+
+	数值型基本数据类型包括 整数类型byte short int long和浮点类型 float double
+	byte 整数字节型数据类型 占一个字节 大小范围为-128—127
+	字节是计算机的存储单位 习惯上用 B 表示，1 B=8bit(位) 一字节等于八位二进制数
+	
+	ASCII 码：信息交换标准代码
+		'A'=65
+		'a'=97
+		小写字母编码比大写字母编码要大32
+	
+	数据有三种存储方式，一种是外存，一种是内存，一种是缓存
+	比如电脑上的硬盘，磁盘，U盘等都是外存，电脑上的内存条是内存，缓存是在CPU里面的
+	java程序存储在对应工程文件夹的bin文件夹下对应的包文件夹中
+
+	假如i=2，(i++)=2，而i此时就等于3
+
+	java标识符命名规则：必须以字母、下划线、美元符号开头
+	JDK目录结构：bin目录下有编译器javac.exe、解释器java.exe、其他工具
+		       lib目录是库文件、类库目录
+		       jre目录是java运行环境根目录
+		       demo目录有各种演示例子
+	
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点03： this和super用法总结：
+	
+	this是自身的一个对象引用 
+	super是离自身最近的父类的一个对象引用
+
+	本类及父类类成员的调用
+	this 多用于return作方法返回
+	用this.xxx来调用本类的类成员，多用于形参与类成员变量名字重名时
+	用super.xxx来引用父类的成员，当子类中的成员变量或方法与父类中的成员变量或方法同名时要调用父类的类成员用
+
+	本类及父类构造方法的调用
+	super（参数）：调用父类中的某一个构造函数（必须为构造函数中的第一条语句）
+	this（参数）：调用本类中的某一个构造函数（必须为构造函数中的第一条语句）
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点04：  继承用法总结：extends
+
+	 java 是不可以继承多个类，java是单继承的，但是java 通过 接口可以实现多继承
+	任何一个子类只能有一个父类，而子类还可以被其他类继承。不过父类可以有多个子类
+	一个老爸可以有多个儿子，儿子只能有一个老爸，而接口儿子可以有多个接口老爸。。。
+	
+	在继承中，子类对象可以自动转换为父类(向上转换) 但是父类要想转化为子类对象就必须强制转化(向下转换 会抛出异常) 
+	就好比四边形有平行四边形 但四边形不一定就是指平行四边形，也可以是正方形。。。。
+
+	子类可以调用从父类 公开属性和公开的方法。当子类重写某个父类方法时，则子类直接调用的是子类的方法（重写的表现）
+	当父类的引用指向了子类的对象，而子类重写父类的方法时，此时父类可以调用子类的该方法，除此之外父类不可以调用子类的类成员
+	老爸的东西，儿子可以随便拿。儿子的东西，老爸不能随便拿。老爸有的东西，儿子也有，则儿子用的是自己的东西。。。。
+
+	创建一个子类的对象时，会默认先执行父类的无参构造方法 然后再执行子类的构造方法，
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点05： 	java的多态性：方法重载和方法覆盖(重写)
+	
+	方法重载：同一个类中，方法名相同，参数列表不同的2个或多个方法构成方法的重载	 
+		 方法的返回值类型，方法的修饰符可同可不同
+	参数列表不同表现为：参数个数不同 参数类型不同 参数顺序不同
+
+	方法覆盖：子类中的方法与父类中的某个方法的名称和参数完全相同
+		 通过子类创建的实例对象调用这个方法时，将调用子类中的定义方法
+
+	覆盖的标准：子类对象引用向上转型成父类对象引用时能够调用其重写的那个方法
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点06：  静态 static 关键字用法总结：方便在没有创建对象的情况下来进行调用（方法/变量）
+
+	可以用于修饰 类成员变量 和 类成员方法 和 常量 等
+
+	在静态方法中不可以使用this关键字
+	在静态方法里面不可以直接调用非静态方法和非静态变量，反过来可以
+	（静态成员可以跨类调用）
+	
+	用来形成 静态 代码块 以优化程序性能
+	static块可以置于类中的任何地方，方法内部除外，类中可以有多个static块。
+	在类初次被加载的时候，会按照static块的顺序来先执行每个static块，并且只会执行一次。
+	
+	没有static修饰的是非静态代码块 {}
+	与静态代码块不同的是，只有在创建该类的对象引用时才会调用，每创建一个对象引用就调用一次
+
+	注意：在创建一个子类的对象时，会先执行父类的所有static块，然后再执行子类的所有static块，
+	再调用父类的构造方法，再调用子类的构造方法···
+	
+	静态即共享，无论实例化多少个对象都只占一份内存  它的使用完全独立于该类的任何对象
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+要点07：  权限修饰符用法总结：
+
+	默认的，也称为 default，在同一包内可见，不使用任何修饰符。
+	私有的，以 private 修饰符指定，在同一类内可见。
+	共有的，以 public 修饰符指定，对所有类可见。
+	受保护的，以 protected 修饰符指定，对同一包内的类和所有子类可见。
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+要点08：  Object类：由于所有类都是Object子类，所以在定义类时，省略了extends Object关键字
+	
+	getClass()用于返回Class实例 
+	getClass().getName()用于返回类的名称
+
+	例如：Object aa=new Object();
+	          System.out.println(aa.getClass());
+	          System.out.println(aa.getClass().getName());
+	输出：class java.lang.Object
+	          java.lang.Object
+	
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点09：  常见词汇翻译：
+
+	get 获取		JScrollBar  滚动条类		AdjustmentEvent  可调节对象发出的事件         JScrollBar.HORIZONTAL      水平方向             
+	set 设置		Listener     监听  		FocusEvent           焦点事件   		        JScrollBar.VERTICAL	   垂直方向
+	Color 颜色	Event        事件		ActionEvent          动作事件		        URL  		   统一资源定位地址
+	final 最终的	number    数、数量		NewState	             新状态		        FileInputStream                  文件输入流类            
+	finally 最终的	throws      投掷 		MouseEvent         鼠标事件		        FileOutputStream	   文件输出流类
+	byte 字节		throw	 扔 		close	             关闭		        Graphics    		   绘图
+	bit 位		Math 	 数学		OldState	             旧状态		        paint		   描绘
+	file 文件		random	 随机的		Input	             输入		        test			   测试
+	close 关闭		files	 文件夹		Output	             输出		        PRIORITY  	 	   优先
+	read 读取		write	 写		append	             追加		        ProgressBar		   进度条
+	debug 调式	applet       小应用程序	null 	             无效的
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------·	
+要点10：  instanceof 操作符用法：某类的对象引用 instanceof 某个类
+	返回值为布尔类型 true或false
+	
+	用于判断一个对象实例是否属于某个类 
+	也可以判断一个类是否实现了某个接口
+	
+	例如：class ttang{}
+	          class lianxi2  extends ttang{    
+	              public static void main(String args[]) {
+		     ttang aaa=new ttang();//创建一个父类的对象实例
+		     lianxi2 bbb=new lianxi2();//创建一个子类的对象实例
+		     System.out.println(bbb instanceof ttang);//比较子类引用是否属于父类
+		     System.out.println(aaa instanceof lianxi2);//比较父类引用是否属于子类
+	              }
+	          }
+	结果：true
+	          false
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点11：  抽象类和接口用法总结：
+	
+	抽象类不可以实例化对象，但它的子类可以
+	实际上抽象类除了被继承之外没有任何意义
+	定义抽象类的关键字 abstract
+
+	抽象类被继承后需要实现其中的 所有 抽象方法   所谓的实现就是重写该方法，不能再是抽象方法 
+	当继承抽象类的子类也是抽象类时，不用实现父类的抽象方法也可以
+	
+	使用这个关键字定义的方法为抽象方法
+	抽象方法没有具体的方法体 本身没有任何意义，除非被重写
+	注意：抽象方法只能放在抽象类中  
+
+	实例如下：
+		public abstract class add{ //定义抽象类
+			abstract void tang(); //定义抽象方法，注意没有方法体
+			void tian(){        //也可以有普通方法
+			}
+		}
+
+	定义接口的关键字 interface	
+	普通类继承接口的关键字 implements
+	而接口继承接口还是用 extends 
+
+	接口是特殊的抽象类，保留着抽象类的所有特性，唯一不同就是 接口不再是一个简单的类，可以被多继承
+	一般也把继承了接口叫做实现了接口，实现了接口就要重写接口里面的所有方法
+	接口中的所有方法都没有方法体(和抽象方法差不多 不过不再需要abstract关键字定义)，也就是接口只有抽象方法
+	接口中的常量都是静态常量
+
+	实例如下：
+		public interface add{ //定义接口，不需要加class  注意：public修饰符只有在接口名与文件名相同时才可以使用
+			void tang();//接口内的方法，省略abstract 关键字，也没有方法体 默认自带public修饰符
+			int t=2;// 注意：接口里定义的任何字段都自带static和final修饰符
+			上面就相当于 public static final int t=2;
+		}
+		class shixian implements add,接口2,接口3,接口4···{//继承接口 多继承格式
+			public shixian(){//构造方法
+			}
+			public void tang(){//实现接口tang()的方法
+			}
+		}
+	接口可以间接实例化，具体看要点14
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点12：  java类包用法总结：
+	
+	一个类的完整名称为其完整的类路径 例如：Math类 完整类名为 java.lang.Math;
+	类包的存在就是为了避免同名类发生冲突 只要同一包内的类不同名即可 为了能在程序中使用两个同名的类
+	例如：
+		java.util.Date date=new java.util.Date();
+		java.sql.Date date2=new java.sql.Date();
+	
+	定义包名关键字 package 包名; 且要放在程序的第一行
+	导入包关键字 import 包名; 且要放程序开头
+	例如：
+		import tang.Math; //指定tang包中的 Math 类在程序中可用
+		import tang.*;        //指定tang包中的所有类在程序中都可用
+	需要注意的是 import tang.*; 只是导入了tang这个包中的所有类 如果tang下面还有一个包 还需要重新导入
+
+	除了导入包里面的类还可以直接导入包里面的静态成员方法和静态成员变量
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点13：  final 关键字用法总结：最终定义 成为常量
+
+	可以用于修饰 变量 对象引用 方法 数组 类 等 
+	用final定义的变量、对象引用等等只能赋值一次 
+	被final定义的对象引用只能指向唯一一个对象，不可以将它再指向其他对象 但是一个对象本身的值却是可以改变的
+	被final定义的方法不能被子类覆盖
+	被final定义的类不能被继承，且不能对这个类进行任何改动
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点14：  内部类知识总结：内部类可以随意直接调用外部类的的成员方法和成员变量，不管是否被private修饰私有
+		           外部类却不可以直接调用内部类的方法
+
+	成员内部类：在类里面方法外面创建的类
+
+		如果在外部类的静态方法中创建内部类的对象引用，需要先创建外部的对象引用再创建内部类		
+		例如：
+			class waibu{//外部类
+				public static void main(String args[]){//外部类的静态方法
+					waibu aa=new waibu();//创建外部类对象引用
+					neibu aaa=aa.new neibu();//创建内部类对象引用
+				}
+				class neibu{//内部类
+				}
+			}
+	
+		可以用内部类去继承接口，然后就可以在外部类中实例化接口啦
+		例如：
+			interface abc{//定义一个接口
+			}
+			class waibu{//外部类
+				public static void main(String args[]){//外部类的静态方法
+					waibu aa=new waibu();//创建外部类对象引用
+					neibu aaa=aa.new neibu();//创建内部类对象引用
+					abc aaaa=aaa;//实例化接口 内部类对象引用自动向上转型成接口实现
+				}
+				class neibu  implements abc{//内部类 继承 接口abc
+				}
+			}
+	
+	局部内部类：在方法里面创建的类 在方法外面不能访问局部内部类（生命周期只在该方法里）
+	匿名内部类：其含义跟匿名对象引用差不多 一般用来实例化接口较多
+
+	       	例如：
+			interface abc{//定义一个接口
+			    int f();//接口里面的方法
+			}
+			class waibu{
+				abc aa=new abc() {//用匿名内部类实例化接口
+					public int f() {
+						return 0;}
+					};
+			}				
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点15：  异常处理用法总结：在程序运行时可能出现的一些错误称为异常
+
+	异常是一个在程序执行期间发生的非正常事件，如果不做处理，程序将在出现异常的位置终止（捕捉它就完事了，没捕捉到你就完事了） 
+	异常在java语言中是以 类的实例 的形式出现的，当某一方法中发生错误时，这个方法会产生一个异常对象
+	
+	捕捉异常实例：
+			try{//可能发生异常的代码块
+			}
+			catch(Exception e /*异常类对象引用*/){//如果捕捉到参数这个异常情况，就跳转到这里，执行这里的代码
+				//Exception e 这个包含了所有的异常情况（Exception类是所有异常类的父类，其中又分运行时异常和非运行时异常）
+				System.out.println(e);//一般加上这句 直接简单了解一下异常情况 
+				e.printStackTrace();//或者可以这样子 以便知道是发生什么异常 发生在程序中的那个位置等等
+			}
+			finally{//无论是否有异常产生，或者catch是否捕捉到异常都会执行
+			}
+	e.getMessage()方法，获取所抛出的异常信息 
+	一个try语句可接多个catch从句，可以使用多个catch来捕捉多个不同的异常，如有多个 注意顺序
+	
+	自定义异常：继承Exception类即可自定义
+
+		抛出异常：某个方法可能会出现异常，但不想在当前方法中处理这个异常，而是调用层次向上传递
+			那就谁调用这个方法，这个异常就由谁来处理
+			可以在方法声明处用 throws 关键字声明抛出异常，可以抛出多个，用逗号隔开
+
+		抛出异常对象：在声明抛出异常的方法的方法体中
+			用 throw 抛出，程序执行了throw语句时 程序立即终止，后面的语句不再执行
+	
+	实例如下：
+		class AException extends Exception {//通过继承Exception类来自定义异常
+			public AException(String string){
+				super(string);//调用父类的构造方法 用来抛出异常后输出异常信息
+			}
+		}
+		public class tth {
+			public static void tang(int i) throws AException {//用于抛出异常的方法
+				if(i==100)
+					throw new AException(i+"岁 这他妈可能吗 哈!");//抛出异常对象引用
+					System.out.println("已经"+i+"岁了");
+			}
+			public static void main(String[] args) {	
+				try {
+					System.out.println("请回答小明今年多少岁了？");
+					tang(100);//调用可能出现异常的方法
+				} 
+				catch (AException e) {//捕捉自定义异常
+					System.out.println("出现自定义异常错误："+e);
+				}
+				finally {
+					System.out.println("妈妈再也不用担心我异常");
+				}
+			}
+		}
+	显示结果：
+		请回答小明今年多少岁了？
+		出现自定义异常错误：lianxi.AException: 100岁 这他妈可能吗 哈!
+		妈妈再也不用担心我异常
+	
+	当调用某个方法时系统提示要try/catch包围，是因为该方法声明了抛出某某异常
+	有关自定义异常更多详解翻开书本221页或者打开收藏夹看博客。。。。。
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点16：  包装类：
+
+	在java中不能定义基本数据类型的对象，为了能将基本数据类型视为对象进行处理
+	并能连接相关的方法，java为每个基本数据类型都提供了包装类，如int型的包装类Integer、boolean型的包装类Boolean
+	这样就可以把这些基本数据类型转换为对象进行处理了
+
+	Integer类：与Long类、Shor类都是在java.lang包中，这些类都是 Number抽象类 的子类
+
+		Integer aa=new Integer(int number);//创建一个Integer类的对象 构造参数为 int 变量 或者 String 变量
+		Integer aa=new Integer(String number);//用String变量做参数需要用 数字型 的,不然会抛出异常
+
+		parseInt()方法，将参数里的 数字型字符串 转换成相对应的 int型 数值，调用时可直接 类名.方法名 如：int aa=Integer.parseInt("88");
+		toString()方法，将参数里的 int型数值 转化成对应十进制数值的字符串  如：String aa=Integer.toString(10);
+		toBinaryString()方法，将参数里的 int型数值 转化成对应二进制数值的字符串  例如：String aa=Integer.toBinaryString(16);
+		还有转换成十六进制，八进制的，详解翻开书本151页
+	
+		MAX_VALUE 常量：int型数据可取的最大值
+		MIN_VALUE 常量：int型数据可取的最小值
+
+	Byte类还有其他的Boolean类 Character类 Double类使用方法与上面的大同小异 具体看第八章
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点17：  数字处理类详解：
+	
+	Math类：为各种数学计算提供工具方法
+		使用方法 Math.数学方法;
+		abs() 求绝对值
+	
+		Math.PI 值为圆周率Π，也可以代表180°
+		Math.E  值为e，高中时候学过的
+		该类在java.lang包下，所以不用导入就可以直接使用了
+		
+	随机数：两种方式产生随机数 Math类的random()方法和Random类提供的产生各种数据类型随机数的方法
+
+		0<=Math.random()<1.0 默认返回的是double类型的随机数
+		(int)(n+Math.random()*m) 得到一个 n<=x<m+n 的数
+		也可以通过ASCII码随机生成字符 如 (char)(65+Math.random()*27) 随机生成A~Z
+		
+		Random aa=new Random();//创建一个Random对象引用（所谓的随机数生成器）
+		aa.nextInt();//得到一个随机整数
+		aa.nextInt(n);//得到一个大于等于0且小于n的随机整数
+		aa.nextFloat();//得到一个随机单精度值 不可以像随机整数那样给个参数n确定范围~~
+		还有取长整型 布尔型 双精度等等随机值的方法，于上面类似
+
+		特色用法与第一种一样
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点18：  文件输入输出I/O流：流是一组有序的数据序列（一组有序、有起点和终点的字节数据序列）
+	现所学通常与磁盘文件有关，建立程序与磁盘之间的链接
+	顶级输入流  InputStream(字节输入流)抽象类和Reader(字符输入流)抽象类
+	顶级输出流  OutputStream(字节输出流)抽象类和Writer(字符输出流)抽象类
+
+	字节输入流常用方法：
+		read();//按照一个字节为单位进行读取数据,弊端是遇到中文就会把中文的汉字拆开从而出现乱码
+		           //读出的返回值是每次所读到的那个字符所对应的ascii码值
+		           //如果已经读到文件尾则返回值为-1
+		read(byte[] b);//按照一个字节数组所指定的大小为单位进行读取，每次最多可以读取数组定义的大小的字节个数
+			       //读出的返回的是每次读取字节的个数
+			       //字节数组中存储了每次所读取的所有数据
+			       //例如：
+				byte b[] = new byte[1024]; //每次读取都以1K字节作为单位来进行 
+				int i = fis.read(b); //返回值与b.length相同 
+				String str=new String(b, 0, i);//把每次读取的字节数组解码为字符串
+		close(); //关闭输入流对象
+
+	字节输出流常用方法：
+		write(byte[] b);//按照一个字节数组所指定的大小为单位进行写入，每次最多可以读取数组定义的大小的字节个数
+		flush();//彻底完成输出并清空缓存区
+		close(); //关闭输出流对象
+				例如：
+				byte b2[] = str.getBytes();//将上面的字符串解码为字节数组byte[]
+				fos.write(b);////将解码后的字节数组写入到此输出流
+				fos.close(); //关闭输出流对象 
+
+	File类：代表磁盘文件本身的对象
+		File file=new File("I:\\唐家三少.txt");//创建一个文件的对象引用 构造参数为 文件路径及文件名，不指定路径则默认在所在工程文件夹里
+		file.delete();//删除该文件
+		file.createNewFile();//创建该文件 如果文件已存在则不会再创建				
+		file.getName();//获取该文件名称
+		file.length();//获取该文件的长度(以字节为单位)
+		file.getAbsolutePath();//获取该文件的绝对路径
+
+	文件字节输入输出实例：
+		File file=new File("I:\\唐家三少.txt");//创建File类的对象引用
+		File file1=new File("I:\\唐家二少.txt");
+		try {
+			file.createNewFile();//创建文件
+			file1.createNewFile();
+
+			FileInputStream ru=new FileInputStream(file);//创建字节输入流对象引用
+			byte[] byt=new byte[1024];//创建一个字节数组 
+			int i=ru.read(byt);//按照字节数组大小读取文件file，并返回文件file的字节数
+			String str=new String(byt,0,i);//将字节数组从头到尾解码成字符串
+			System.out.println(str);//将字符串输出到控制台
+			ru.close();//关闭输入流对象
+			
+			
+			FileOutputStream chu=new FileOutputStream(file1);//创建字节输出流对象引用
+			byte[] byt1="谁道人生无再少，门前流水尚能西".getBytes();//将字符串解码成字节数组
+			chu.write(byt1);//将字符数组写到文件file1中 注意：每一次写入文字到file1文件中都会将其覆盖
+			chu.close();//关闭输出流对象
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	文件字符输入输出与字节输入输出大同小异：
+		读取时用字符数组进行读取文件，再将字符数组变成字符串即可
+		输出时直接将字符串输出，不用解码
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点19：  多线程：一个进程为一个程序，一个程序可以有多个功能 一个线程完成一个功能，所谓多线程就是在一个程序中同时完成多件事情(java的并发机制）
+	Thread类的构造方法如右: public Thread(Runnable aa,String bb)//参数为Runnable接口实现和线程名称
+	Thread类实际上实现了Runnable接口,其中的run()方法正是对Runnable接口中的run()方法的具体实现
+	启动一个新线程,不是直接调用Thread类的run()方法,而是调用start()方法.因为start()方法产生一个新的线程,该线程运行run()方法
+	两种实现线程的方式： 
+		一是继承java.lang.Thread类, 重写 线程实现功能的代码块所放的run()方法,然后创建该类实例调用start()方法启动线程（间接实现Runnable接口）
+		       如果不调用start()方法,线程永远不会启动,Thread对象只是一个实例,还不是一个线程
+			public class sanshao extends Thread{
+				int i=10;
+				public void run() {//线程所要实现的功能
+					while(true) {//通常在run()方法中使用无限循坏使得线程一直运行下去,然后再指定一个跳出循环的条件
+					System.out.print(i+" ");
+					if(--i==0)
+					return;
+					}
+				}
+				public static void main(String args[]) {
+					sanshao aa=new sanshao();//创建一个线程
+					aa.start();//启动该线程
+					//aa.start();//用start()方法调用一个已经启动的线程会抛出异常
+					new ThreadTest().start();//创建匿名线程并启动
+				}
+			}
+			class ThreadTest extends Thread{
+				int i=1;
+				public void run() {
+					System.out.println();
+					while(true) {
+					System.out.print(i+" ");
+					if(++i==11)
+					return;
+					}
+				}
+			}
+	
+		二可以实现java.lang.Runnable接口,然后在创建Thread实例的构造参数中加上该接口实现,再调用start()方法启动线程即可 （直接实现Runnable接口）
+		下面是结合GUI程序的一个实例	
+			public class RunnableTest {
+				int i=0;
+				public RunnableTest() {//构造方法
+					JFrame aa=new JFrame("会动的图标");
+					aa.setBounds(500,500,400,200);
+					aa.setLayout(null);
+					JLabel bb=new JLabel(new ImageIcon("I:\\图片资源库\\play.jpg"));
+					aa.add(bb);
+					Thread t=new Thread(new Runnable() {//创建Thread实例
+						public void run() {
+							while(true) {
+								bb.setBounds(i, 10, 100, 50);//设置标签的位置大小
+								try {
+									Thread.sleep(100);//使线程休眠100毫秒,有可能出现异常需要try/catch包围
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								i+=5;
+								if(i==300)
+									i=0;
+							}
+						}	
+					});
+					t.start();//启动线程
+					aa.setVisible(true);
+				}
+				public static void main(String[] args) {//主方法
+					new RunnableTest();
+				}
+			}
+	
+	线程的生命周期： 创建Thread实例时为出生状态，调用start()方法后为就绪状态，得到系统资源后进入运行状态
+		            调用sleep()方法后进入休眠状态，调用wait()方法进入等待状态，进入等待状态必须调用notify()或notifyAII()方法唤醒回到就绪状态
+		            在运行状态下发出输入/输出请求，进入阻塞状态，输入/输出结束时进入就绪状态
+		            当run()方法执行完毕后进入死亡状态
+
+	线程的休眠操作结合GUI绘图实例：休眠后会进入就绪状态，此时会让其他线程进入运行状态（绘图新技术）
+		import java.awt.*;
+		import java.util.Random;//获取随机整数所需类
+		import javax.swing.*;
+		public class caozuo{
+			Color[] color= {Color.BLACK,Color.BLUE,Color.RED,Color.YELLOW,Color.gray,Color.green};
+			int y=100;
+			public caozuo() {
+				JFrame aa=new JFrame("测试");//创建一个窗体
+				aa.setBounds(300,300,666,666);//设置窗体坐标及大小
+				Thread bb=new Thread(new Runnable() {//创建一个线程
+					public void run() {
+						while(true) {
+							try {
+								Thread.sleep(100);//让线程休眠100毫秒
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							Graphics graphics=aa.getGraphics();//获取绘图上下文对象
+							graphics.setColor(color[new Random().nextInt(color.length)]);//设置画笔随机颜色
+							graphics.drawLine(0, y, 500,y);//绘制直线
+							y++;
+							if(y>=300)
+								y=100;
+						}
+					}
+				});
+				bb.start();//启动线程
+				aa.setVisible(true);//使窗体可视
+			}
+			public static void main(String args[]) {
+				new caozuo();
+			}
+		}
+
+	线程的加入操作结合GUI进度条组件实例：在一个线程中通过另一个线程调用join()方法加入该线程，得先执行完后加入的线程再继续执行前一个线程(创建窗体的新思路)
+		import java.awt.*;
+		import javax.swing.*;
+		public class lianxi extends JFrame{
+			Thread thread;
+			Thread thread2;
+			public lianxi() {//构造方法
+				JProgressBar progressBar=new JProgressBar();//创建一个进度条组件对象
+				JProgressBar progressBar2=new JProgressBar();
+				progressBar.setStringPainted(true);//设置进度条显示当前进度值
+				progressBar2.setStringPainted(true);
+				add(progressBar,BorderLayout.NORTH);//添加进度条组件到窗体中,放在最北面
+				add(progressBar2,BorderLayout.SOUTH);
+				thread=new Thread(new Runnable() {//创建一个线程实例
+					public void run() {
+						int x=0;
+						while(true) {
+							progressBar.setValue(x++);//设置进度条的当前进度值  上限%100
+							try {
+								Thread.sleep(100);//让该线程休眠100毫秒
+								thread2.join();//在当前线程中加入thread2线程,须等thread2线程执行完毕后才能执行该线程
+								//有可能出现异常，也要用try/catch包围
+							} catch (Exception e) {
+								e.printStackTrace();
+							}		
+						}
+					}
+				});
+				thread.start();//启动线程
+				thread2=new Thread(new Runnable() {
+					int y=0;
+					public void run() {
+						while(true) {
+							progressBar2.setValue(y++);
+							try {
+								Thread.sleep(100);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							if(y==101)
+								break;
+						}
+					}
+				});
+				thread2.start();
+			}
+			public static void shezhi(JFrame aa,int x,int y) {//不能在静态方法里调用非静态方法
+				aa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//设置窗体的关闭方式为退出应用程序时关闭窗体
+				aa.setBounds(500,300,x,y);
+				aa.setVisible(true);
+			}
+			public static void main(String args[]) {
+				shezhi(new lianxi(),100,100);
+			}
+		}
+
+	线程的中断：通过调用Thread类的interrupt()方法来中断当前线程，不过程序会抛出InterruptedException异常，对其进行异常处理结束循环即可
+		package sanshao;
+		import java.awt.*;
+		import javax.swing.*;
+		public class zhongduan extends JFrame{
+			Thread thread;
+			public zhongduan() {//构造方法
+				JProgressBar progressBar=new JProgressBar();//创建一个进度条对象引用
+				progressBar.setStringPainted(true);//设置进度条显示当前进度值
+				add(progressBar,BorderLayout.SOUTH);//把进度条组件放在窗体的最南边
+				thread=new Thread(new Runnable() {
+					public void run() {
+						int x=0;
+						while(true) {
+							progressBar.setValue(x++);//设置进度条的当前进度值
+							try {
+								thread.sleep(1000);//让线程休眠1000毫秒
+							} catch (Exception e) {
+								System.out.println("线程已被中断");
+								break;//结束循环,离开run()方法同时结束线程			
+								}
+						}
+					}
+				});
+				thread.start();//启动线程
+				thread.interrupt();//中断线程
+			}
+			public static void shezhi(JFrame aa,int x,int y) {
+				aa.setBounds(500,300,x,y);
+				aa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//设置窗体的关闭方式
+				aa.setVisible(true);
+			}
+			public static void main(String[] args) {//主方法
+				shezhi(new zhongduan(),100,100);
+			}
+		}
+
+	线程的优先级：线程的优先级表明了该线程的重要性，系统根据优先级首先使哪个线程进入运行状态，但低优先级的线程也有低几率运行
+		       多任务操作系统中，每个线程都会得到一小段CPU时间片运行，例如：有高相同优先级的线程A和B，低优先级线程C
+		        A首先得到CPU时间片运行，时间结束轮换B得到CPU时间片运行，B结束了再轮换A，直到线程A和B都执行完毕了才轮到线程C
+	使用setPriority()方法调整线程的优先级实例如下：编译结果可看到这4个进度条好像在一起滚动
+		import java.awt.*;
+		import javax.swing.*;
+		public class Youxianji extends JFrame{
+			public Youxianji() {//构造方法
+				JProgressBar progressBar1=new JProgressBar();//创建一个进度条对象引用
+				JProgressBar progressBar2=new JProgressBar();
+				JProgressBar progressBar3=new JProgressBar();
+				JProgressBar progressBar4=new JProgressBar();
+				progressBar1.setStringPainted(true);//使进度条显示当前进度值
+				progressBar2.setStringPainted(true);
+				progressBar3.setStringPainted(true);
+				progressBar4.setStringPainted(true);
+				setLayout(new FlowLayout());//设置布局方式为流布局
+				add(progressBar1);//添加进度条组件到窗体中
+				add(progressBar2);
+				add(progressBar3);
+				add(progressBar4);
+				Thread thread1=new Thread(new shixian(progressBar1));//创建线程实例
+				Thread thread2=new Thread(new shixian(progressBar2));
+				Thread thread3=new Thread(new shixian(progressBar3));
+				Thread thread4=new Thread(new shixian(progressBar4));
+				setPriority("线程A",5,thread1);//调用setPriority()方法
+				setPriority("线程B",5,thread2);
+				setPriority("线程C",4,thread3);
+				setPriority("线程D",3,thread4);
+			}
+			public void setPriority(String name,int y,Thread bb) {//设置进程名字,优先级,启动线程的方法
+				bb.setName(name);//设置线程的名称
+				bb.setPriority(y);//设置线程的优先级
+				bb.start();//启动线程
+			}
+			public static void shezhi(JFrame aa,int x,int y) {//初始化窗体方法
+				aa.setBounds(500,300,x,y);
+				aa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				aa.setVisible(true);
+			}
+			public static void main(String[] args) {//主方法
+				shezhi(new Youxianji(),150,150);//不能在静态方法里调用非静态方法
+			}
+		}
+		class shixian implements Runnable{//实现Runnable接口类
+			JProgressBar bar;
+			public shixian(JProgressBar bar) {//构造方法
+				this.bar=bar;
+			}
+			public void run() {//实现方法
+				int x=0;
+				while(true) {
+					bar.setValue(x++);//设置进度条当前的进度值
+					try {
+						Thread.sleep(1000);//让该进程休眠1000秒
+					} catch (InterruptedException e) {
+						System.out.println("当前线程被中断");
+					}
+				}
+			}
+		}
+	
+	线程同步产生的安全问题详解：实质上线程安全问题来源于多个线程同时存取单一对象的数据
+	实例如下：当i=1时，线程1还没对i进行自减动作就调用sleep()方法休眠进入了就绪状态， 这 时线程2、线程3、线程4都进入了run方法
+		发现i还是大于0，但此时线程1休眠结束将i自减，同时线程2、3、4也都对i进行自减，从而产生了负数
+		public class AnQuan implements Runnable{
+			int i=10;
+			public void run() {
+				while(true) {
+					if(i>0) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						System.out.println("车票剩余："+i--+"张");
+					}
+				}
+			}
+			public static void main(String[] args) {
+				AnQuan t=new AnQuan();
+				Thread a=new Thread(t);
+				Thread b=new Thread(t);
+				Thread c=new Thread(t);
+				Thread d=new Thread(t);
+				a.start();
+				b.start();
+				c.start();
+				d.start();
+			}
+		}
+
+	线程的同步机制：可以有效的防止资源冲突，只允许一个线程访问同步块或同步方法中的内容中的内容（同一时间上只有一个线程访问同步块的内容）
+		           有同步块,格式如右 synchronized(Object){} 参数Object为任意一个对象，该对象存在一个标志位，当标志位为0时，表明此同步块中存在其他线程在运行，
+		           这时线程处于就绪状态，直到处于同步块中的线程执行完同步块中内容时，此时标志位为1，该线程才可以执行同步块中的代码，并将标志位设置为0~~
+		           有同步方法,格式如右 synchronized void f(){} 在方法名前面加上synchronized关键字即可，作用与同步块一样，
+	实例如下：
+		public class AnQuan implements Runnable{
+			int i=10;
+			public void run() {
+				while(true) {
+					synchronized("") {//设置同步块，当有线程访问到这里时，再有其他线程访问到这里时会滚回就绪状态
+						if(i>0) {
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							System.out.println("车票剩余："+i--+"张");
+						}
+					}
+				}
+			}
+			public static void main(String[] args) {
+				AnQuan t=new AnQuan();
+				Thread a=new Thread(t);
+				Thread b=new Thread(t);
+				Thread c=new Thread(t);
+				Thread d=new Thread(t);
+				a.start();
+				b.start();
+				c.start();
+				d.start();
+			}
+		}
+
+	注意：在同一个时间点上，只有一个线程被执行，只是线程之间切换比较快，所以才会让人产生多线程是同时进行
+	          当某个线程从运行状态进入休眠时，会切换另一个线程进入运行状态，再等上一个线程休眠结束了，又切换回来
+	          当线程调用yield()方法时，使得具有同样优先级的线程有进入运行状态的可能性
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+要点 20：  数据库操作详解：
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||  莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+杂类方法大全 及其余知识：
+	
+	import java.awt.*;//导入AWT组件
+	import javax.swing.*;//导入swing组件
+	java.awt.*只是引用java/awt这个包里所有的.class文件,不能引用event这个文件夹的.class文件
+	用java.awt.event.*才是引用java/awt/event这个包里的*.class文件
+
+	aa.setVisible(false);//隐藏窗体,会在后面浪费系统资源
+	aa.dispose();//销毁窗体,释放系统资源  
+
+	setText()设置组件文本
+	getText()获取组件文本
+	可以用equals()进行比较 例如if(jt2.getText().equals("")) 如果jt2的文本等于空白  equals是等于的意思
+
+	Toolkit.getDefaultToolkit().getScreenSize().width;//获取屏幕的宽度
+	Toolkit.getDefaultToolkit().getScreenSize().height;//获取屏幕的高度	
+
+	setBounds()设置组件坐标及宽高
+	setFont(new Font("宋体", Font.PLAIN, 24))设置组件文本属性
+	setForeground(Color.black);//设置组件前景色,也就是文字颜色
+	setBackground(Color.red);//设置组件背景色 
+
+	也可以自定义颜色 Color yanse=new Color(int r, int g, int b)；
+	用指定的红色、绿色、蓝色创建一种 sRGB 颜色，这些值都在 0-255 的范围内
+
+	Integer.parseInt()方法 将参数里面的字符串转成整型数据
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+窗体 实例用法：
+
+	JFrame aa=new JFrame("职责所在");//创建一个窗体对象,构造参数为窗体名称
+	aa.setVisible(true);//使窗体可视  注意：frame显示之后再把组件加上去， 要改变窗口大小让窗口进行重绘，这时组件才显示出来 
+	aa.setSize(500, 800);//设置窗体宽高  也可以通过setBounds()方法来设置其坐标与宽高
+	aa.setLocation(width/2-250,height/2-420);//设置窗体左上角在屏幕的坐标,适当调整使窗体在屏幕中心
+	aa.setResizable(false);//设置窗体大小固定,用户不能自由更改    
+	aa.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//设置窗体关闭方式,这里设置是退出程序自动关闭
+	aa.setLocationRelativeTo(null);//把窗口位置设置到屏幕的中心
+	aa.setContentPane();//设置窗口的内容面板  参数为：要设置的面板实例  现学是用于设置为绘图面板
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+容器 面板 布局管理器 实例用法：
+		
+	Container bb=aa.getContentPane();//调用窗体的getContentPane()方法定义一个容器
+	bb.setLayout(null);//容器布局设置
+	参数为：null 绝对布局,通过setBounds()方法设置每个组件的位置与大小 下面三种布局管理器可根据窗体大小自动调节组件大小
+	参数为：new BorderLayout() 设置边界布局管理器 JFrame默认布局管理器 在用add()时加上BorderLayout.大写方向单词即可
+	参数为：new FlowLayout() 设置流布局管理器 没参数为居中布局 FlowLayout(n,x,y) n:对齐方式  x:水平间隔 y:垂直间隔
+	参数为：new GridLayout(h, l, x,y ) 设置网格布局管理器 h:行数  l:列数  x:水平间隔 y:垂直间隔 
+
+ 	可以创建面板,把各种显示组件添加到面板里,再把面板当成一个组件添加到窗体或者容器里 
+	(面板，窗体，窗体的getContentPane()都是一个容器)
+
+               	普通面板：JPanel  
+	特点：可以使用布局管理器,在创建该面板的参数时定义布局管理器(面板默认流布局管理器) 可以添加多个部件
+	带滚动条的面板：JScrollPane  
+	特点：不可以使用布局管理器,只可以添加一个组件 且组件只能在创建该面板时在参数里面添加 
+                          可以把其他组件放到普通面板里,然后再把普通面板当成一个组件放到该面板里 
+      	          当容器里的内容不是很多时,可能不显示滚动条,调节窗体大小就知道了 
+	
+	bb.setBackground(Color.pink);//用窗体设置背景颜色无效,需要定义一个容器来设置
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+创建图标 详解：可用于 标签 确定按钮 单选按钮框 
+	class jiekou implements Icon//通过lcon接口来创建图标,图标可以放在按钮、标签等组件上
+ 	//继承了lcon接口就必须在该类中实现lcon接口中定义的所有方法,否则报错
+	{
+		int k,g;
+		public jiekou(int k,int g) { this.k=k; this.g=g;}//构造方法,初始化图标的宽度和高度
+		public void paintIcon(Component arg0, Graphics arg1, int x, int y) {arg1.fillOval(x, y, k, g);}//使用Graphics的fillOval(x, y, k, g)方法绘制一个圆形的图标
+		public int getIconWidth() {return this.k;}//获取图片的宽度
+		public int getIconHeight() {return this.g;}//获取图片的高度
+		public static void main(String args[])
+		{
+			jiekou aa=new jiekou(k,g);//创建该类对象即可创建图标
+		}
+	}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+标签 实例用法：
+
+	    通过调用ImageIcon类根据现有图片创建图标(ImageIcon是 Icon 接口的实现)	
+                    URL url=lianxi.class.getResource("唐家三少.bmp");//课本的案例,须把参数里的图片放到bin目录下的对应包里
+                    Icon icon=new ImageIcon(url);//URL  统一资源定位地址 
+	    Icon icon2 = new ImageIcon("I://1323.gif");//另一种方法：实例化Icon的对象,参数为图片的绝对地址
+
+	    下面是通过调用jiekou类创建图标的实例
+	    JLabel dd=new JLabel("你好世界",new jiekou(15,15),SwingConstants.CENTER);//创建一个标签对象,构造参数为 组件文本 Icon实例 (导入图片) 文本居中 
+	    图标在左，文字在右	    
+
+	    JLabel dd=new JLabel("你好世界",icon,SwingConstants.CENTER);//创建一个标签对象,构造参数为 组件文本 Icon实例或接口类实例(导入图片) 文本居中 
+	    dd.setBounds(0,640,470,110);//设置标签坐标x 坐标y 宽度 高度 
+	    dd.setOpaque(true);//设置标签为不透明状态
+	    dd.setFont(new Font("幼圆", Font.PLAIN, 35));//设置文字属性 
+	    dd.setForeground(Color.BLUE);//设置标签前景色,也就是文字颜色
+	    bb.add(dd);//添加标签对象到容器里
+
+	   dd.addMouseListener(new MouseListener(){//JLabel 不像按钮，要添加鼠标事件 用鼠标事件监听
+		public void mouseClicked(MouseEvent e) {
+			// 处理鼠标点击
+			}
+			public void mouseEntered(MouseEvent e) {
+			// 处理鼠标移入
+			}
+			public void mouseExited(MouseEvent e) {
+			// 处理鼠标离开
+			}
+			public void mousePressed(MouseEvent e) {
+			// 处理鼠标按下
+			}
+			public void mouseReleased(MouseEvent e) {
+			// 处理鼠标释放
+			}
+	     }); 
+	     MouseEvent类的三大常量  BUTTON1值为1,代表鼠标左键  BUTTON2值为2,代表鼠标滚轮  BUTTON3值为3,代表鼠标右键
+	     getButton()方法，用来获取鼠标按键被按下键的对应值 用法如：if(e.getButton()==1){} 如果按下鼠标左键
+	     getClickCount()方法，用来获取的次数 用法如：if(e. getClickCount()==2){}鼠标双击时
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+对话框窗体类 详解：
+
+	class duihuakuang extends JDialog//创建一个对话框窗体类
+	{
+		public duihuakuang(lianxi aa,String bb,boolean cc)//构造方法,构造参数为 父窗体对象 对话框窗体标题 窗体类型
+		{
+			super(aa,bb,cc);//super与this类似,相当于是本类的父类对象
+			setBounds(lianxi.width/2-500,lianxi.height/2-300,1000,200);//设置对话框窗体的左上角坐标以及大小
+			Container bbb=getContentPane();//定义一个对话框窗体的容器
+			bbb.setBackground(Color.black);//设置对话框窗体容器的背景颜色
+			JLabel aaa=new JLabel("生活本来就很有趣,何必为了那些细节,把自己逼成了苦逼",SwingConstants.CENTER);
+			aaa.setBounds(0,0,470,110);
+			aaa.setFont(new Font("幼圆", Font.PLAIN, 35));
+			aaa.setForeground(Color.white);
+			bbb.add(aaa);//添加标签
+		}
+	}
+
+	对话框的窗体类型详解：对话框可以分为模式对话框和非模式对话框两种。
+                模式对话框是指用户只能在当前的窗体中进行操作，在该窗体没有关闭之前不能切换到其他的窗体。
+                非模式对话框是指当前的所操作的窗体可以切换。
+	
+	可以通过创建JFrame对象引用来达到弹出对话框 先让它不可视 在事件监听器检测相应后在设置可视
+                系统自带对话框：JOptionPane.showMessageDialog(null,"电脑被病毒入侵,请关机重启");//参数为该对话框里面的标签内容 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+确认按钮 实例用法：
+
+	    JButton cc=new JButton("他时若遂凌云志，敢笑黄巢不丈夫");//创建一个确认按钮类对象,构造参数为 按钮名称 以及 Icon实例 (导入图片)
+	    导入图片时，图片即为图标，图标在左边，按钮文字在图标右边
+	    bb.add(cc);//把按钮添加到容器里
+
+	    cc.setBounds(50,580,400,40);//设置按钮坐标x 坐标y 宽度 高度 
+	    cc.setBorderPainted(false);//不显示按钮边框
+	    cc.setFont(new Font("宋体", Font.PLAIN, 24));//设置文字属性 三参数分别为：字体 风格:普通PLAIN加粗BOLD斜体 字号:字体大小
+	    cc.setForeground(Color.black);//设置按钮前景色,也就是文字颜色
+	    cc.setBackground(Color.red);//设置按钮背景色
+
+	    cc.addActionListener(new ActionListener(){//添加动作事件监听器 
+	    	public void actionPerformed(ActionEvent e)//动作事件发生后响应弹出对话框窗体
+	    	{new duihuakuang(lianxi.this,"坚决作战",true).setVisible(true);}            
+	      });
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+单选按钮 实例用法：
+	
+	    JRadioButton jr=new JRadioButton("开始游戏吧");//创建一个单选按钮组件实例 参数为：按钮文本 按钮图标Icon实例 是否默认被选中
+	    参数不加Icon实例时,该对象显示一个圆形的图标
+
+	    ButtonGroup zu=new ButtonGroup();//创建一个 按钮组 组件实例,其构造参数具体有什么尚不清楚
+	    zu.add(jr);//把单选按钮对象添加到按钮组实例 作用：当选中某个单选按钮时,按钮组中其他按钮会自动取消
+
+	    JRadioButton jr1=new JRadioButton("开始游戏吧2");
+	    JRadioButton jr2=new JRadioButton("开始游戏吧3");
+	    JRadioButton jr3=new JRadioButton("开始游戏吧4");
+	    zu.add(jr1);
+	    zu.add(jr2);
+	    zu.add(jr3);
+
+                    JPanel ab=new JPanel(new GridLayout(2, 2, 5,5 ) );//最好创建一个面板用网格布局,来存放同一个按钮组的单选按钮
+	    ab.setBounds(722,222,200,50); //设置面板的坐标和大小
+	    bb.add(ab);//把面板添加到容器里
+	    ab.add(jr);//把单选按钮对象添加到面板里
+	    ab.add(jr1);
+	    ab.add(jr2);
+	    ab.add(jr3);
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+复选框按钮 实例用法：
+	
+	    JCheckBox jc=new JCheckBox("选我啊",true);//创建一个复选框对象 参数为：说明文字 是否被选中
+	    该组件实例显示一个方块图标,提供被选中与不选中
+
+	    JPanel aba=new JPanel(new GridLayout(2, 2, 5,5 ) );
+                    bb.add(aba);//添加面板到容器
+	    凡是用到多个单选按钮、复选框按钮、确定按钮的最好创建一个面板设置网格布局来存放它们
+
+                    JCheckBox jc1=new JCheckBox("选我啊",true);
+                    JCheckBox jc2=new JCheckBox("选我啊",true);
+                    JCheckBox jc3=new JCheckBox("选我啊",true); 
+	    aba.add(jc);   
+	    aba.add(jc1); 
+	    aba.add(jc2); 
+	    aba.add(jc3);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+	    //创建多个复选框组件，把他们添加到容器中
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+下拉列表框 实例用法：
+
+	    String str[]={" ","斯室","我本","我本狂人"};//用字符串数组存储项目内容
+
+                    JComboBox xia=new JComboBox(str);//创建一个下拉列表框组件对象 参数为:字符串数组名(用字符串数组存储就好,具体看248页)
+	   下拉列表框和列表框都可以用addItem()方法添加项目内容
+
+	    JLabel jl=new JLabel("请问你是:");//创建标签，用来搭配下拉列表框
+                    JPanel abb=new JPanel(new GridLayout(1,1,5,5));//创建面板
+                    abb.setBounds(577,377,160,21);
+	    abb.add(jl);
+	    abb.add(xia);
+	    bb.add(abb);//把面板添加到容器
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+列表框 实例用法：
+	
+                    String jiba[]= {"列表1","列表2","列表3","列表4","列表1","列表2","列表3","列表4"};//用字符串数组存储项目内容
+                    JList ist=new JList(jiba);//创建一个列表框组件对象 参数为:字符串数组名以及Vector实例 
+
+	    /*Vector ttt=new Vector();//用Vector实例添加列表框项目内容
+	    JList ist=new JList(ttt); 
+                    ttt.add("列表1);//只能一个个添加
+                    ttt.add("列表1);
+                    ttt.add("列表1);
+                    ttt.add("列表1);*/
+
+	    列表框结合滚动条面板一起用效果更佳哦
+	    JScrollPane mb77=new JScrollPane(ist);//创建滚动条面板，记得组件只能在参数里
+                    mb77.setBounds(977,566,80,200);
+	    bb.add(mb77); 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+单行文本框 密码框 多行文本域 实例用法：
+
+                    JTextField wbk=new JTextField("我叫小沈阳",10);//创建一个单行文本框实例  参数为：默认文本以及文本框长度
+	    wbk.setBorder(BorderFactory.createEmptyBorder()); //不显示文本框的边
+
+                    JPasswordField mi=new JPasswordField("hhhh",15);//创建一个密码框实例 使用方法与单行文本框一致
+                    密码框特点：将框里的文本指定显示某个字符 默认是显示小黑点
+                    mi.setEchoChar('*');//将显示字符改成参数里面那个
+
+	    JTextArea duo=new JTextArea("hello world!",10,5);//创建一个多行文本域对象 参数：默认文本以及文本域的宽度和高度
+	    duo.setLineWrap(true);//设置文本域自动换行
+	    duo.append();//将方法里的字符串追加到文本域里
+
+	    JPanel mb7=new JPanel(new GridLayout(3, 1, 5,5 ) );//创建一个普通面板
+ 	    mb7.add(mi);//添加密码框到面板里
+	    mb7.add(wbk);//添加单行文本框对象到面板里
+	    mb7.add(duo);//添加文本域到面板里
+	    mb7.setBounds(888,111,200,222);
+	    bb.add(mb7);
+
+	    wbk.addActionListener(new ActionListener(){//添加监听器 为单行文本框添加事件
+	    public void actionPerformed(ActionEvent e)//当检测到光标焦点落在文本框里并按下Enter键时响应该方法里的事件
+	    {wbk.setText("促发");}
+	      });
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+滚动条 实例用法：
+
+	    JScrollBar gdt1=new JScrollBar(int orientation, int value, int extent, int min, int max));//创建一个滚动条组件 
+	    构造参数分别为：滚动方向 		JScrollBar.HORIZONTAL(水平方向)或JScrollBar.VERTICAL(垂直方向)	
+		               滚动条初始值	
+		               滚动条大小  	滚动条可以到达的是max-extent 比如最大值是100，extend是10则滚动条最大能到达90
+		               最小值
+		               最大值
+	     滚动条是有刻度值的 用getValue()方法获取当前刻度值 用setValue()方法设置当前刻度值
+
+	     gdt1.setUnitIncrement(1);// 设置拖曳滚动轴时，滚动轴刻度一次的变化量。
+	     gdt1.setBlockIncrement(10);// 设置当鼠标在滚动轴列上按一下时，滚动轴一次所跳的区块大小	
+	
+	     JLabel jl=new JLabel(" ");//创建一个标签
+	     JPanel mb=new JPanel(new GridLayout(1, 2, 0,0 ) );//创建一个面板
+	     mb.add(jl);
+	     mb.add(gdt1);
+	     bb.add(mb);//把面板添加到容器
+
+	     gdt1.addAdjustmentListener(new AdjustmentListener() {//为滚动条添加监听器
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+			jl.setText( String.valueOf("当前的值为"+gdt1.getValue()));//目的是通过拖动滚动条改变组件的文本
+		}	
+	      });
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+进度条 实例用法：
+
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+事件监听器 详解：
+
+	所谓的事件监听器也就是一个接口····（添加事件监听器的参数为该监听器的实例）
+	ActionListener 动作事件监听器 用于按钮,表现为按下 用于文本框,表示为焦点在框并且按下确认键 不可用于标签,报错
+	FocusListener 组件焦点事件监听器  用于文本框,表现为点击文本框让焦点在框里
+	AdjustmentListener 调整事件监听器 多用于滚动条组件，表现为拖动滚动条
+	KeyListener 键盘事件监听器 多用于文本框之类，表现为焦点在框并按下键盘的某个键
+	MouseListener 鼠标事件监听器 用于文本框 标签等等组件,可表现为点击标签 
+	WindowFocusListener 窗口焦点事件监听器 用于窗口,表现为点击窗体让焦点在窗体里
+	WindowStateListener 窗口状态事件监听器 用于窗口,表现为窗体由正常变为最小化、由最大化变为正常化等等事件
+	WindowListener 窗口事件监听器 顾名思义，用于窗体表现为窗体激活 打开 关闭等等
+
+	添加了什么监听器就必须要实现什么接口
+	实现接口可以通过创建内部类继承该接口实现，再者在添加监听器时直接实现该接口（通过使用匿名内部类，一般都是使用这种）
+
+	也可以通过主类继承接口直接在主类里重写接口里的方法(此时在主类的组件添加监听器时参数填(this)即可 )  主类对象引用向上转型成接口实例
+	注意 ：通过此方法实现监听器接口的话 需要添加监听器的组件对象引用要作为全局变量
+	           如果有多个组件要添加同一监听器的话 要在其实现方法里加个if((xxx)e.getSource()==xxx)判断是哪个组件对象引用发生了事件
+	           e.getSource() 返回值是Object类引用，有些方法Object类可能没有，所以最好在前面加个强制转换 	
+
+	Listener 监听  Event 事件  getSource()获取发生事件的事件源
+
+	jl.addFocusListener(new FocusListener() {//焦点事件监听器使用实例（ new FocusAdapter() 焦点适配器 ）
+		public void focusGained(FocusEvent e) {//组件得到焦点时调用这个
+		}
+		public void focusLost(FocusEvent e) {//组件失去焦点时调用这个
+			JOptionPane.showMessageDialog(null,"电脑被病毒入侵,请关机重启");
+		}
+	}); 
+
+	jt.addKeyListener(new KeyListener() {//键盘事件监听器使用实例 
+		public void keyTyped(KeyEvent e) {//击键
+		}
+		public void keyPressed(KeyEvent e) {//按键按下
+		}
+		public void keyReleased(KeyEvent e) {//按键释放
+		}
+	});
+	getKeyCode() 获取被按下按键的按键码
+	getKeyText(ASCII 码) 获取按键码对应的标签内容
+	getKeyChar() 获取按下键相关联的字符
+	KeyEvent.getKeyText(arg0.getKeyCode()) 获取被按下按键对应的标签内容
+
+	aa.addWindowStateListener(new WindowStateListener() {//窗口状态事件监听器使用实例
+		public void windowStateChanged(WindowEvent e) {
+			JOptionPane.showMessageDialog(null,"电脑被病毒入侵,请关机重启");//窗体状态发生改变	
+		}		
+	});
+	WindowEvent类的三大常量 NORMAL,值为0 代表窗体正常化状态  ICONIFIED,值为1 代表窗体最小化状态  MAXIMIZED_BOTH,值为0 代表窗体最大化状态
+	getNewState()方法，获取窗体现在的状态值
+	getOldState()方法，获取窗体以前的状态值
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+绘图详解：Java绘图类：Graphics与Graphics2D
+	Graphics类是所有图形上下文的抽象基类
+	Graphics 类相当于一块画布，绘图的原点位于画布的左上角
+	Swing组件的实际绘制中通常使用的是 Graphics 的一个子类 Graphics2D ，它包含了Graphics类的绘图方法并添加了更强的功能
+	Graphics2D要绘制指定形状的图形，需要先创建并实例初始化这些图形类，这些图形类必须是Shape接口的实现类
+	java.awt.geom包自带的图形类都是抽象类，在不同的图形中有Double和Float这两个实现类
+	draw***()绘图方法 后接图形单词
+	fill***()图形填充方法 后接图形单词
+
+	新建一个类通过继承JPanel面板使该类成为窗体组件，然后重写paint()方法
+	该方法的参数Graphics g就相当于一个画笔，可通过对其进行调用各种方法来绘图
+
+	实例如下：
+		public class tian1 {
+			public static void main(String[] args) {
+				JFrame aa=new JFrame("画画");
+				aa.setSize(500, 500);//设置窗体大小
+				aa.setLocationRelativeTo(null);//把窗体位置设置到屏幕的中心
+				aa.setContentPane(new huahua());//设置窗体的内容面板为绘图面板
+				aa.setVisible(true);
+			}
+		}
+		class huahua extends JPanel{//绘图面板设置
+			public void paint(Graphics g) {
+				g.setColor(Color.red);//设置画笔颜色
+				//g.clearRect(int x, int y, int width, int height)//擦除某一区域（擦除后显示背景色）
+				g.setFont(new Font("楷体",Font.BOLD,50));//设置字体（字体、样式、大小）
+				g.drawString("神鸟凤凰图", 100,100 );//绘制一段文本,其中 (x, y) 坐标指的是文本序列的 左下角 的位置
+				g.drawRect(120,120,40,25);//画一个矩形
+				//有关更多几何图形绘制方法请看 https://www.cnblogs.com/donghb/p/7637990.html
+				Graphics2D g2d = (Graphics2D) g.create();//强制转换调用Graphics2D类绘图
+				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //抗锯齿
+				BasicStroke bs1 = new BasicStroke(5);// 笔画的轮廓（画笔宽度/线宽为5px）
+	                       		g2d.setStroke(bs1);//设置笔画的轮廓特性（如画笔宽度、实线、虚线等）	
+			                g2d.draw(new  Line2D.Double(200,200,400,400));//绘制直线
+			                g2d.fill(new Line2D.Double(200,200,400,400));//填充
+			}
+		}	
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+*************************************************************  此文于2018年12月6日星期四凌晨开始编写  ******************************************************************
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
